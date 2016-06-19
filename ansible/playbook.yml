@@ -1,0 +1,59 @@
+---
+
+- hosts: all
+  become: yes
+  become_method: sudo
+  pre_tasks:
+      - name: Add repository for PHP 5.6.
+        apt_repository: repo='ppa:ondrej/php5-5.6'
+  tasks:
+    - name: install git
+      apt: name=git state=present
+    - name: install vim
+      apt: name=vim state=present
+    - name: install sqlite
+      apt: name=sqlite3 state=present
+    - name: install sqlite lib dev
+      apt: name=libsqlite3-dev state=present
+  roles:
+      - build-essential
+      - mysql
+      - memcached
+      - role: php
+        php_enable_php_fpm: true
+      - composer
+      - postgresql
+      - role: nginx
+        nginx_http_params:
+          - sendfile "off"
+          - access_log "/var/log/nginx/access.log"
+        nginx_sites:
+          quickstart:
+            - listen 11000
+            - root "/vagrant/isportal-dev/public/"
+            - index index.html index.php
+            - error_log "/var/log/nginx/isportal-error.log" 
+            - location / { try_files $uri $uri/ /index.php;}
+            - location ~ \.php$ {try_files $uri =404;fastcgi_split_path_info ^(.+\.php)(/.+)$;fastcgi_pass 127.0.0.1:9000;fastcgi_index index.php;include fastcgi_params;}
+          issue-manager:
+            - listen 12000
+            - root "/vagrant/issue-manager/public/"
+            - index index.html index.php
+            - error_log "/var/log/nginx/isportal-error.log" 
+            - location / { try_files $uri $uri/ /index.php;}
+            - location ~ \.php$ {try_files $uri =404;fastcgi_split_path_info ^(.+\.php)(/.+)$;fastcgi_pass 127.0.0.1:9000;fastcgi_index index.php;include fastcgi_params;}
+          punchcards:
+            - listen 13000
+            - root "/vagrant/punchcards/public/"
+            - index index.html index.php
+            - error_log "/var/log/nginx/isportal-error.log" 
+            - location / { try_files $uri $uri/ /index.php;}
+            - location ~ \.php$ {try_files $uri =404;fastcgi_split_path_info ^(.+\.php)(/.+)$;fastcgi_pass 127.0.0.1:9000;fastcgi_index index.php;include fastcgi_params;}
+      - role: nodejs
+        nodejs_npm_global_packages:
+          - name: pm2
+          - name: gulp
+          - name: bower
+          - name: grunt
+          - name: yo
+          - name: generator-webapp
