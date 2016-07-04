@@ -1,4 +1,4 @@
-# Welcome
+ Welcome
 
 ## Getting Started
 
@@ -27,4 +27,10 @@ So now you have your vagrant machine up and running but at `localhost:11111` the
 * After this you should run (in `/isportal-dev` directory)  `php artisan migrate && php artisan db:seed` - this will populate the database for you.
     * Make sure that you have .env file in this directory if you do not have this file please try to manually check out this item from the repository, since by default this item is ignored.
 
-* Finally if you get an error about some invalid cypher: `php artisan key:generate` 
+* Finally if you get an error about some invalid cypher: `php artisan key:generate`
+
+## Demo
+
+[Portal Usability Demo](https://youtu.be/ykNUC7Uw4kk)
+
+* Note that in the demo, bugs were not left out on purpose, it serves as a first glance at the state of development that it currently presents. If you watch the full demo you will be able to notice issues and derive necessities  
