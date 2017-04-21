@@ -6,6 +6,6 @@ The Portfolio Activities web Platform is intended to manage the logistic process
 - Managements of Applications by Faculty and Coaching Teams
 
 Development of the Platform, considering:
-- Integration with FenixEdu
-- Modules for Reporting
-- Modules for Coaching Teams Management
+- [Integration with FenixEdu](https://github.com/IST-Portfolios/portfolios-web/milestone/1)
+- [Modules for Reporting](https://github.com/IST-Portfolios/portfolios-web/milestone/2)
+- [Modules for Coaching Teams Management](https://github.com/IST-Portfolios/portfolios-web/milestone/3)
