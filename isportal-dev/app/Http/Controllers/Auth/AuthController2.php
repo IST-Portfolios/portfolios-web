@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
 use Auth;
 
-class AuthController extends Controller {
+class AuthController2 extends Controller {
 	/*
 	|--------------------------------------------------------------------------
 	| Registration & Login Controller

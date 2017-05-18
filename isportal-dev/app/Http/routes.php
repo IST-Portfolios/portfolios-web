@@ -31,7 +31,11 @@ Route::get('/about', function () {
  */
 
 Route::group(['middleware' => 'web'], function () {
-    Route::auth();
+
+
+    Route::get('login', 'Auth\FenixEduAuthController@loginWithFenix');
+    Route::get('logout', 'Auth\FenixEduAuthController@logout');
+    Route::get('/authCallback', 'Auth\FenixEduAuthController@authCallback');
 
     //Home
     Route::get('/home', 'HomeController@index');
