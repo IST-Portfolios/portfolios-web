@@ -3,9 +3,7 @@
 require_once("fenixedu.config.php");
 require_once("RestRequest.inc.php");
 
-
 ini_set('display_errors', 1);
-
 
 class FenixEduException extends Exception {
 
@@ -54,7 +52,7 @@ class FenixEdu{
 
         $_FENIX_EDU["access_key"] = "570015174623286";
         $_FENIX_EDU["secret_key"] = "QrirlsU7wUwZcbo7XBEqGuD9MpV9d80zbxtiDI6ucJVUmtma3AKLJseip73oo9KQehS/7wOj+UZQvWDJEm+Piw==";
-        $_FENIX_EDU["callback_url"] = "http://194.210.177.251:8000/authCallback";
+        $_FENIX_EDU["callback_url"] = "http://ppportal.ddns.net:8000/authCallback";
         $_FENIX_EDU["api_base_url"] = "https://fenix.tecnico.ulisboa.pt";
 
 		$config = $_FENIX_EDU;
@@ -63,12 +61,12 @@ class FenixEdu{
 		$this->accessToken = isset($config["access_token"]) ? $config["access_token"] : null;
 		$this->refreshToken = isset($config["refresh_token"]) ? $config["access_token"] : null;
 		$this->callbackUrl = isset($config["callback_url"]) ? $config["callback_url"] : $this->getCurrentUrl();
-		$this->apiBaseUrl = isset($config["api_base_url"]) ? $config["api_base_url"] : "http://fenix.ist.utl.pt";
+		$this->apiBaseUrl = isset($config["api_base_url"]) ? $config["api_base_url"] : "http://fenix.tecnico.ulisboa.pt";
 		
 		if(isset($_SESSION['accessToken'])){
 			$this->accessToken = $_SESSION['accessToken'];
 			$this->refreshToken = $_SESSION['refreshToken'];
-			$this->expirationTime = $_SESSION['expires'];
+			$this->expirationTime = $_SESSION['expires_in'];
 		}
 	}
 	
@@ -94,12 +92,14 @@ class FenixEdu{
 		$req = new RestRequest($url, 'POST', $reqbody);
 		$req->execute();
 		$info = $req->getResponseInfo();
+
 		if($info['http_code'] == 200){
+
 			$json = json_decode($req->getResponseBody());
 			$this->accessToken = $_SESSION['accessToken'] = $json->access_token;
 			$this->refreshToken = $_SESSION['refreshToken'] = $json->refresh_token;
-			$this->expirationTime = $_SESSION['expires'] = time() + $json->expires;
-			header('Location: main.php');
+			$this->expirationTime = $_SESSION['expires_in'] = time() + $json->expires_in;
+
 		} else {
 			echo '<pre>'.print_r($req).'</pre>';
 		}
@@ -129,7 +129,7 @@ class FenixEdu{
 		$result = json_decode($req->getResponseBody());
 		if($info['http_code'] == 200){	
 			$this->accessToken = $_SESSION['accessToken'] = $result->access_token;
-			$this->expirationTime = $_SESSION['expires'] = time() + $result->expires;
+			$this->expirationTime = $_SESSION['expires_in'] = time() + $result->expires_in;
 		} elseif($info['http_code'] == 401) {
 			throw new FenixEduException($result);
 		}

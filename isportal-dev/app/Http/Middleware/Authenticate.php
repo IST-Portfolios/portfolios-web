@@ -17,13 +17,31 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->guest()) {
-            if ($request->ajax() || $request->wantsJson()) {
-                return response('Unauthorized.', 401);
-            } else {
-                return redirect()->guest('login');
+        session_start();
+
+        if(isset($_SESSION["student"])){
+
+            try{
+
+                $ist_id = \FenixEdu::getSingleton()->getIstId();
+
+                if($ist_id != $_SESSION["student"]->ist_id){
+                    unset($_SESSION["student"]);
+                    return redirect("/login");
+                }
+
             }
+            catch (Exception $e){
+                unset($_SESSION["student"]);
+                return redirect("/login");
+            }
+
+
         }
+
+
         return $next($request);
+        
     }
+
 }
