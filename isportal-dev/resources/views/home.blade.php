@@ -31,7 +31,13 @@
                                 <p style="color: red"> Your enrollment process is not complete yet. You should enroll in a total of 3 activities <a href="/activity">Enroll Here</a></p>
                             @else
                                 <p style="color: green">Your enrollment process is complete. You will be engaged by the entities responsible for the activities, you've chosen</p>
-
+                            @endif
+                            <hr>
+                            <h4>Report:</h4>
+                            @if(Auth::user()->report == null)
+                            <p>No report submitted yet</p>
+                            @else
+                            <p>Show report</p>
                             @endif
                         @else
                             <h4>Candidates:</h4>
@@ -60,6 +66,9 @@
                         </a>
                         <a href="{{ url('enrollments') }}">
                             <button class="btn btn-default">Enrollments</button>
+                        </a>
+                        <a href="{{ url('report') }}">
+                            <button class="btn btn-default">Submit Report</button>
                         </a>
                     @elseif($type != 'student' )
                         <a href="{{ url('manageCandidates') }}">

@@ -43,6 +43,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/activity/{id}', ['as' => 'setActivityID', 'uses' => 'ActivityController@setId']);
     Route::post('/submitActivity', 'ActivityController@submitActivity');
 
+    //Reports
+    Route::get('/report', 'ReportController@index');
+
+    Route::post('/submitReport', 'ReportController@submitReport');
+
 
     //Enrollments
 
@@ -70,4 +75,3 @@ Route::group(['middleware' => ['web', 'role:professor']], function () {
     Route::get('/getAll', 'ProfController@getAll');
 
 });
-
