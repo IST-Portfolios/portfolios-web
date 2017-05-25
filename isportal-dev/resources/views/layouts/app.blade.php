@@ -65,6 +65,8 @@
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}">Login</a></li>
+                        <li><a href="{{ url('/loginStudent') }}">Login Fake Student</a></li>
+                        <li><a href="{{ url('/loginProfessor') }}">Login Fake Professor</a></li>
                     @else
                         <li><img style="border-radius: 50%" src="https://fenix.tecnico.ulisboa.pt/user/photo/{{ Auth::user()->ist_id }}" width="50"></li>
                         <li class="dropdown">

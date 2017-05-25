@@ -36,7 +36,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/authCallback', 'Auth\FenixEduAuthController@authCallback');
     Route::get('logout', 'Auth\FenixEduAuthController@logout');
 
-
+    Route::get('loginStudent', 'Auth\FakeLoginController@loginAsStudent');
+    Route::get('loginProfessor', 'Auth\FakeLoginController@loginAsProfessor');
 });
 
 Route::group(['middleware' => ['web','auth']], function () {
