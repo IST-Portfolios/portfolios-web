@@ -11,6 +11,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Mockery\Exception;
 
 require_once(app_path() . "/Libraries/FenixEdu/FenixEdu.class.php");
@@ -21,9 +25,6 @@ class FenixEduAuthController extends Controller
 
     public function loginWithFenix()
     {
-
-
-
 
         $fenixEduClient = \FenixEdu::getSingleton();
         $authorizationUrl = $fenixEduClient->getAuthURL();
@@ -36,7 +37,12 @@ class FenixEduAuthController extends Controller
 
     public function logout()
     {
-        unset($_SESSION["student"]);
+
+        Auth::logout();
+
+        Session::flush();
+
+        return redirect('/')->withCookie(Cookie::forget(Auth::getRecallerName()));
     }
 
 
@@ -51,10 +57,11 @@ class FenixEduAuthController extends Controller
                 $fenixEduClient = \FenixEdu::getSingleton();
                 $fenixEduClient->getAccessTokenFromCode($code);
 
-                $_SESSION["fenixclient"] = $fenixEduClient;
-                $_SESSION["student"] = $this->getOrCreateStudent($fenixEduClient->getPerson());
+                $user = $this->getUserData($fenixEduClient->getPerson());
 
-                return redirect("/home");
+                Auth::login($user, true);
+
+                return redirect()->intended('/home');
 
             } catch(Exception $e) {
                 // The code received is invalid, goto the landing page (user probably tried to pass the code param)
@@ -63,22 +70,48 @@ class FenixEduAuthController extends Controller
         }
     }
 
-    private function getOrCreateStudent($person){
+    private function getUserData($person){
+
+        $results = App\User::where('ist_id', $person->username);
 
         $user = new \App\User();
         $user->name = $person->name;
         $user->ist_id = $person->username;
         $user->email = $person->email;
+        $user->type = $this->getUserType($person);
 
-        if(App\User::where('ist_id', $user->ist_id)->count() == 1){
-            $user->update();
+
+        if($results->count() == 1){
+
+            $dbResult = $results->get()[0];
+
+            $dbResult->name = $user->name;
+            $dbResult->ist_id = $user->ist_id;
+            $dbResult->email = $user->email;
+            $dbResult->type = $user->type;
+
+            var_dump($dbResult->update());
+
+            return $dbResult;
         }
         else{
-            $user->save();
+            return $user;
+        }
+    }
+
+
+    private function getUserType($person){
+
+        $type = "student";
+
+        foreach ($person->roles as $role){
+            if($role->type === "TEACHER" || $role->type === "PROFESSOR"){
+                $type = "professor";
+                break;
+            }
         }
 
-        return $user;
-
+        return $type;
     }
 
 

@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticable;
 
-class User extends Model
+class User extends Authenticable
 {
     public function activities(){
         return $this->hasMany(Activity::class, 'creator_id');

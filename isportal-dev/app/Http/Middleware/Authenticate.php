@@ -17,31 +17,21 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        session_start();
 
-        if(isset($_SESSION["student"])){
+       if(Auth::check()){
+           return $next($request);
+       }
+       else{
+           return redirect()->guest('login');
+       }
 
-            try{
-
-                $ist_id = \FenixEdu::getSingleton()->getIstId();
-
-                if($ist_id != $_SESSION["student"]->ist_id){
-                    unset($_SESSION["student"]);
-                    return redirect("/login");
-                }
-
-            }
-            catch (Exception $e){
-                unset($_SESSION["student"]);
-                return redirect("/login");
-            }
-
-
+        /*
+        if(Auth::check()){
+            return $next($request);
         }
-
-
-        return $next($request);
-        
+        else {
+            return redirect()->guest('login');
+        }*/
     }
 
 }

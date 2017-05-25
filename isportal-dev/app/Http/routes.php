@@ -32,10 +32,14 @@ Route::get('/about', function () {
 
 Route::group(['middleware' => 'web'], function () {
 
-
     Route::get('login', 'Auth\FenixEduAuthController@loginWithFenix');
-    Route::get('logout', 'Auth\FenixEduAuthController@logout');
     Route::get('/authCallback', 'Auth\FenixEduAuthController@authCallback');
+    Route::get('logout', 'Auth\FenixEduAuthController@logout');
+
+
+});
+
+Route::group(['middleware' => ['web','auth']], function () {
 
     //Home
     Route::get('/home', 'HomeController@index');
@@ -47,24 +51,21 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/activity/{id}', ['as' => 'setActivityID', 'uses' => 'ActivityController@setId']);
     Route::post('/submitActivity', 'ActivityController@submitActivity');
 
-
     //Enrollments
-
     Route::get('/enrollments', 'EnrollmentsController@index');
-    Route::get('/enrollIn/{id}' , 'EnrollmentsController@enrollIn');
+    Route::get('/enrollIn/{id}', 'EnrollmentsController@enrollIn');
 
     Route::post('/prepareEnrollment', 'EnrollmentsController@prepareEnrollment');
     Route::post('/submitEnroll/{id}', 'EnrollmentsController@submitEnroll');
-    Route::post('/deleteEnrollment' , 'EnrollmentsController@deleteEnrollment');
+    Route::post('/deleteEnrollment', 'EnrollmentsController@deleteEnrollment');
     Route::post('/changePriorities', 'EnrollmentsController@changePriorities');
     Route::post('/acceptEnrollment', 'EnrollmentsController@acceptEnrollment');
     Route::post('/rejectEnrollment', 'EnrollmentsController@rejectEnrollment');
 
     Route::get('/manageCandidates', ['middleware' => 'role:professor,organization', 'uses' => 'EnrollmentsController@manageCandidates']);
 
-    Route::get('/manageActivities' ,'ActivityController@manageActivities');
-    Route::post('/changeActivity/{id}' , 'ActivityController@changeActivity');
-
+    Route::get('/manageActivities', 'ActivityController@manageActivities');
+    Route::post('/changeActivity/{id}', 'ActivityController@changeActivity');
 
 });
 
