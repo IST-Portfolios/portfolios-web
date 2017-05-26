@@ -25,19 +25,16 @@ class FenixEduAuthController extends Controller
 
     public function loginWithFenix()
     {
-
         $fenixEduClient = \FenixEdu::getSingleton();
         $authorizationUrl = $fenixEduClient->getAuthURL();
 
         return redirect()->away($authorizationUrl);
-
     }
 
 
 
     public function logout()
     {
-
         Auth::logout();
 
         Session::flush();
@@ -90,7 +87,7 @@ class FenixEduAuthController extends Controller
             $dbResult->email = $user->email;
             $dbResult->type = $user->type;
 
-            var_dump($dbResult->update());
+            $dbResult->update();
 
             return $dbResult;
         }
