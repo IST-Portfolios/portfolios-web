@@ -11,11 +11,11 @@
                 @if(Auth::user()->report == null )
                 <div class="panel-body">
                     <h4>You have no report submited</h4>
-                    <a href=__DIR__."/reports/ruben.jpg" download>download not open it</a>
                 </div>
                 @else
                 <div class="panel-body">
                     <h4>You already have a report, submitting again will eliminate the previous report</h4>
+                    <a href=__DIR__."/reports/".{{Auth::user()->report}} download>Download it</a>
                 </div>
                 @endif
                 <hr>
