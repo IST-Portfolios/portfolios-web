@@ -1,6 +1,5 @@
 <?php
 
-require_once("fenixedu.config.php");
 require_once("RestRequest.inc.php");
 
 ini_set('display_errors', 1);
@@ -50,9 +49,9 @@ class FenixEdu{
 			session_start();
 		}
 
-        $_FENIX_EDU["access_key"] = "570015174623286";
-        $_FENIX_EDU["secret_key"] = "QrirlsU7wUwZcbo7XBEqGuD9MpV9d80zbxtiDI6ucJVUmtma3AKLJseip73oo9KQehS/7wOj+UZQvWDJEm+Piw==";
-        $_FENIX_EDU["callback_url"] = "http://ppportal.ddns.net:8000/authCallback";
+        $_FENIX_EDU["access_key"] = "<insert access key here>";
+        $_FENIX_EDU["secret_key"] = "<insert secret key here>";
+        $_FENIX_EDU["callback_url"] = "http://<insert your public ip here>:8000/authCallback";
         $_FENIX_EDU["api_base_url"] = "https://fenix.tecnico.ulisboa.pt";
 
 		$config = $_FENIX_EDU;
