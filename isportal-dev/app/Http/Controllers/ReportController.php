@@ -27,7 +27,9 @@ class ReportController extends Controller
       $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
       // Check if image file is a actual image or fake image
       if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_file)) {
-         //Guarda na bd
+        $user = Auth::user();
+        $user->report = $_FILES["fileToUpload"]["name"];
+        $user->save();
       } else {
         return view('report.index');
       }
