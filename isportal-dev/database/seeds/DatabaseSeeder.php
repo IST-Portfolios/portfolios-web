@@ -12,33 +12,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
-
-        factory(App\User::class, 'organization', 10)->create()
-            ->each(function ($u) {
-                factory(App\Activity::class, 4)->create([
-                    "creator_id" => $u->id
-                ]);
-            });
-
-        $user = factory(App\User::class, 'organization')->create([
-            'name' => 'Nokia',
-            'email' => 'nokia@nokia.pt',
-            'password' => bcrypt('nokia999')
+        $user = new User([
+            'name' => 'Fake User',
+            'ist_id' => 'ist0000',
+            'email' => 'user@user.pt',
+            'type' => 'student'
         ]);
 
-        factory(App\Activity::class, 6 )->create([
-            'creator_id' => $user->id
-        ]);
+        $user->save();
 
         $professor = new User([
-            'name' => 'Mr Professor',
+            'name' => 'Fake Professor',
+            'ist_id' => 'ist0001',
             'email' => 'prof@prof.pt',
-            'password' => bcrypt('prof999'),
             'type' => 'professor'
         ]);
 
         $professor->save();
-
     }
 }

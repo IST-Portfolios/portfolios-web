@@ -26,6 +26,7 @@ class ActivityController extends Controller{
         $enrolledIds = array();
         $activities = Activity::all();
         $enrolledActivities = array();
+
         if($user->enrollments()->count() > 0){
             $enrollments = $user->enrollments()->get();
             foreach ($enrollments as $e){
