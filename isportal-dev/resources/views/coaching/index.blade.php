@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <script src="{{ URL::asset("js/coachingList.js")}}"></script>
-    <div class="container">
-        <div class="clearfix">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <h1>List of Current Coaching Teams</h1>
+	<script src="{{ URL::asset("js/coachingList.js")}}"></script>
+	<div class="container">
+		 <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+            <h1>Coaching</h1>
+			@if($implicitType == 'professor')
+				<h1>Management of Coaching Teams</h1>
                 <table class="table table-hover table-bordered">
                     <thead>
                     <tr>
@@ -30,18 +31,31 @@
                                     {{$enrr->name}},
                                 @endforeach
                             </td>
-                            <td>TODO</td>
-                            <td><button type="button" class="btn btn-default addCoacherButton" data-teamid="{{ $team->id }}">Add Coacher</button></td>
+                            <td>
+                                @foreach ($team->coachees() as $enrr)
+                                    {{$enrr->name}},
+                                @endforeach
+                            </td>
+                            <td><button type="button" class="btn btn-default addCoacherButton" data-teamid="{{ $team->id }}">Add Coacher</button>
+                            <button type="button" class="btn btn-default addCoacheeButton" data-teamid="{{ $team->id }}">Add Coachee</button></td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-            </div>
-            <div class="col-md-2"></div>
-        </div>
-    </div>
 
-    <!-- Modal -->
+				<a href="{{ url('/createCoachingTeam') }}" >
+				    <button class="btn btn-default">Create Coaching Team</button>
+				</a>
+			@elseif($implicitType == 'coacher')
+				<!-- list his coachers and team mates here-->
+			@elseif($implicitType == 'coachee')
+
+			@endif
+			</div>
+		</div>
+	<div class="container">
+
+	 <!-- Modal -->
     <div class="modal fade" id="coachingTeamModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -91,5 +105,4 @@
             </div>
         </div>
     </div>
-
 @endsection

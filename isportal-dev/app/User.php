@@ -43,11 +43,22 @@ class User extends Authenticatable
         return $enrrolCount == 3;
     }
 
-    public function activities(){
+    public function isCoacher() {
+        $enrollments = $this->enrollments();
+        foreach ($enrollments as $enrr) {
+            $activityType = $enrr->activity()->type;
+            if($activityType == 'coaching') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function activities() {
         return $this->hasMany(Activity::class, 'creator_id');
     }
 
-    public function enrollments(){
+    public function enrollments() {
         return $this->hasMany(Enrollment::class, 'entity_id');
     }
 

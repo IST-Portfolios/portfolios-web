@@ -64,7 +64,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/manageActivities' ,'ActivityController@manageActivities');
     Route::post('/changeActivity/{id}' , 'ActivityController@changeActivity');
 
-
+    //Coaching
+    Route::get('/coaching', ['middleware' => 'role:professor,student','uses' => 'CoachingController@index']);
 });
 
 /*
@@ -74,14 +75,19 @@ Route::group(['middleware' => ['web', 'role:professor']], function () {
     Route::get('/lookup', 'ProfController@lookup');
     Route::get('/getAll', 'ProfController@getAll');
 
-    //Coaching Team Management Endpoints
+    //Coaching Team Management Endpoints (Professor only)
 
     Route::get('/createCoachingTeam', 'CoachingController@createCoachingTeam');
     Route::post('/submitCoachingTeam', 'CoachingController@submitCoachingTeam');
-    Route::get('/listCoachingTeams', 'CoachingController@listCoachingTeams');
+
     Route::get('/addCoacherToTeam/{teamId}', 'CoachingController@addCoacherToTeam');
     Route::get('/submitCoacherToTeam/{teamId}/{coacherId}', 'CoachingController@submitCoacherToTeam');
     Route::get('/getCoachers/{teamId}', 'CoachingController@getCoachers');
     Route::get('/removeCoacher/{coacherId}', 'CoachingController@removeCoacher');
+
+    Route::get('/addCoacheeToTeam/{teamId}', 'CoachingController@addCoacheeToTeam');
+    Route::get('/submitCoacheeToTeam/{teamId}/{coacheeId}', 'CoachingController@submitCoacheeToTeam');
+    Route::get('/getCoachees/{teamId}', 'CoachingController@getCoachees');
+    Route::get('/removeCoachee/{coacheeId}', 'CoachingController@removeCoachee');
 });
 

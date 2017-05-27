@@ -24,6 +24,18 @@ class CoachingTeam extends Model
         	array_push($coachers, $enrr->coacher());
         }
         return $coachers;
+    }
+
+    /*
+        Return array with all the coachees Users of the team
+    */
+    public function coachees() {
+        $coacheesEnrollments = $this->hasMany(CoacheeEnrollment::class,'coaching_team_id')->get();
+        $coachees = array();
+        foreach ($coacheesEnrollments as $enrr) {
+            array_push($coachees, $enrr->coachee());
+        }
+        return $coachees;
     } 
 
 }

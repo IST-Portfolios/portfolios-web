@@ -81,7 +81,7 @@ class ActivityController extends Controller{
                 ->withInput();
         }
 
-        if(coachingActivityExist()) {
+        if($this->coachingActivityExist()) {
             return redirect('/createActivity')
                 ->withErrors(array("Coaching activity already exist"))
                 ->withInput();

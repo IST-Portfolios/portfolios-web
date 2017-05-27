@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCoacherEnrollmentsTable extends Migration
+class CreateCoacheeEnrollmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,18 +12,16 @@ class CreateCoacherEnrollmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('coacher_enrollments', function (Blueprint $table) {
+        Schema::create('coachee_enrollments', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('coacher_id')->unsigned();
+            $table->integer('coachee_id')->unsigned();
             $table->integer('coaching_team_id')->unsigned();
-            //$table->integer('activity_id')->unsigned();
             $table->timestamps();
 
-            $table->unique(array('coacher_id'));
+            $table->unique(array('coachee_id'));
 
-            $table->foreign('coacher_id')->references('id')->on('users');
+            $table->foreign('coachee_id')->references('id')->on('users');
             $table->foreign('coaching_team_id')->references('id')->on('coaching_teams');
-           // $table->foreign('activity_id')->references('id')->on('activities');
         });
     }
 
@@ -34,6 +32,6 @@ class CreateCoacherEnrollmentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('coacher_enrollments');
+        Schema::drop('coachee_enrollments');
     }
 }

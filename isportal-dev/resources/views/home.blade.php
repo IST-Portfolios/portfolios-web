@@ -53,12 +53,6 @@
                         <a href="{{ url('/lookup') }}" >
                             <button class="btn btn-default">Search</button>
                         </a>
-                        <a href="{{ url('/createCoachingTeam') }}" >
-                            <button class="btn btn-default">Create Coaching Team</button>
-                        </a>
-                        <a href="{{ url('/listCoachingTeams') }}" >
-                            <button class="btn btn-default">List Coaching Team</button>
-                        </a>
                     @endif
                     @if($type == 'student')
                         <a href="{{ url('activity') }}">
@@ -78,6 +72,11 @@
                     <a href="{{ url('createActivity') }}">
                         <button class="btn btn-default">Create Activity</button>
                     </a>
+                    @if($type == 'professor' || $type == 'student')
+                        <a href="{{ url('coaching') }}" >
+                            <button class="btn btn-default">Coaching</button>
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
