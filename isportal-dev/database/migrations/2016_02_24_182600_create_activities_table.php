@@ -19,7 +19,7 @@ class CreateActivitiesTable extends Migration
             $table->string('objectives')->nullable();
             $table->string('description', 250);
             $table->integer('vacancies');
-            $table->enum('type', array('self-proposed','regular'));
+            $table->enum('type', array('self-proposed','regular','coaching'));
             $table->enum('state', array('pending', 'accepted', 'rejected'));
             $table->integer('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users');

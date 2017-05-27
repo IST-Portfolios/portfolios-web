@@ -30,6 +30,9 @@ Route::get('/about', function () {
 |
  */
 
+/*
+    General endpoints
+*/
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
@@ -42,7 +45,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('/activity/{id}', ['as' => 'setActivityID', 'uses' => 'ActivityController@setId']);
     Route::post('/submitActivity', 'ActivityController@submitActivity');
-
+    Route::get('/coachingActivityExist', 'ActivityController@coachingActivityExist');
 
     //Enrollments
 
@@ -56,7 +59,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/acceptEnrollment', 'EnrollmentsController@acceptEnrollment');
     Route::post('/rejectEnrollment', 'EnrollmentsController@rejectEnrollment');
 
-    Route::get('/manageCandidates', ['middleware' => 'role:professor,organization', 'uses' => 'EnrollmentsController@manageCandidates']);
+    Route::get('/manageCandidates', ['middleware' => 'role:professor', 'uses' => 'EnrollmentsController@manageCandidates']);
 
     Route::get('/manageActivities' ,'ActivityController@manageActivities');
     Route::post('/changeActivity/{id}' , 'ActivityController@changeActivity');
@@ -64,10 +67,21 @@ Route::group(['middleware' => 'web'], function () {
 
 });
 
+/*
+    Professor only endpoints
+*/
 Route::group(['middleware' => ['web', 'role:professor']], function () {
     Route::get('/lookup', 'ProfController@lookup');
-
     Route::get('/getAll', 'ProfController@getAll');
 
+    //Coaching Team Management Endpoints
+
+    Route::get('/createCoachingTeam', 'CoachingController@createCoachingTeam');
+    Route::post('/submitCoachingTeam', 'CoachingController@submitCoachingTeam');
+    Route::get('/listCoachingTeams', 'CoachingController@listCoachingTeams');
+    Route::get('/addCoacherToTeam/{teamId}', 'CoachingController@addCoacherToTeam');
+    Route::get('/submitCoacherToTeam/{teamId}/{coacherId}', 'CoachingController@submitCoacherToTeam');
+    Route::get('/getCoachers/{teamId}', 'CoachingController@getCoachers');
+    Route::get('/removeCoacher/{coacherId}', 'CoachingController@removeCoacher');
 });
 

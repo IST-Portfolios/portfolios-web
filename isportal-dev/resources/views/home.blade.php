@@ -26,7 +26,7 @@
                             <hr>
                             <h4>Enrollments:</h4>
                             <p>You are currently enrolled in {{Auth::user()->enrollments()->count()}} activities</p>
-                            @if(Auth::user()->enrollments()->count() < 3)
+                            @if(Auth::user()->enrollProcessComplete())
                                 <p style="color: red">Warning:</p>
                                 <p style="color: red"> Your enrollment process is not complete yet. You should enroll in a total of 3 activities <a href="/activity">Enroll Here</a></p>
                             @else
@@ -52,6 +52,12 @@
                     @if($type == 'professor')
                         <a href="{{ url('/lookup') }}" >
                             <button class="btn btn-default">Search</button>
+                        </a>
+                        <a href="{{ url('/createCoachingTeam') }}" >
+                            <button class="btn btn-default">Create Coaching Team</button>
+                        </a>
+                        <a href="{{ url('/listCoachingTeams') }}" >
+                            <button class="btn btn-default">List Coaching Team</button>
                         </a>
                     @endif
                     @if($type == 'student')

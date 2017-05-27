@@ -56,11 +56,10 @@ class EnrollmentsController extends Controller
             $activity = Activity::findOrFail($id);
             $user = Auth::user();
 
-            if( $user->enrollments()->count() == 3 ){
+            if($user->enrollProcessComplete()){
                 return redirect('/activity');
             }
             else{
-
                 if($user->enrollments()->count() > 0){
                     $enrollments = $user->enrollments()->get();
                     foreach($enrollments as $e){

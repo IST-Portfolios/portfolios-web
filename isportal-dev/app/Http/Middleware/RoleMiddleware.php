@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Log;
 
 class RoleMiddleware
 {
@@ -13,15 +14,15 @@ class RoleMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, ...$roles)
+    public function handle($request, Closure $next, $role)
     {
-        foreach($roles as $r){
-            if($request->user()->type == $r){
+        if($request->user() != null) {  //Verify if the request is from an login user
+            if($request->user()->type == $role){
                 return $next($request);
             }
+            return redirect('/home');
         }
-        return redirect('/home');
-
+        return redirect('/login');
     }
 
 }

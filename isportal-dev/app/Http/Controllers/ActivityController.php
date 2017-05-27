@@ -29,7 +29,7 @@ class ActivityController extends Controller{
         if($user->enrollments()->count() > 0){
             $enrollments = $user->enrollments()->get();
             foreach ($enrollments as $e){
-                array_push($enrolledIds, $e->activity_id);
+                array_push($enrolledIds, $e->entity_id);
             }
 
             $enrolledActivities = Activity::find($enrolledIds);
@@ -46,7 +46,8 @@ class ActivityController extends Controller{
     }
 
     public function createActivity_index(){
-        return view('activity.create');
+        $coachingActivityExist = Activity::where('type', 'coaching')->first() === null;
+        return view('activity.create',["coachingExist" => $coachingActivityExist]);
     }
 
 
@@ -54,23 +55,23 @@ class ActivityController extends Controller{
         $user_type = Auth::user()->type;
         $validator = null;
 
-        if($user_type== 'student'){
-
+        if($user_type == 'student'){
             $validator = Validator::make($request->all(), [
                 'title' => 'required|min:5|max:30',
                 'motivation' => 'required|min:50|max:500',
                 'objectives' => 'required|min:50|max:500',
                 'description' => 'required|min:50|max:1000',
-
+                'type' => 'in:regular',
             ]);
 
         }
-        else{
+        else {
             $validator = Validator::make($request->all(), [
                 'title' => 'required|min:5|max:30',
                 'vacancies' => 'required|min:1|max:30',
                 'objectives' => 'required|min:50|max:500',
                 'description' => 'required|min:50|max:1000',
+                'type' => 'in:regular,coaching',
             ]);
         }
 
@@ -80,6 +81,11 @@ class ActivityController extends Controller{
                 ->withInput();
         }
 
+        if(coachingActivityExist()) {
+            return redirect('/createActivity')
+                ->withErrors(array("Coaching activity already exist"))
+                ->withInput();
+        }
 
         $activity = new Activity;
         $activity->title =  Input::get('title');
@@ -97,12 +103,16 @@ class ActivityController extends Controller{
         else{
             $activity->state = 'accepted';
             $activity->objectives = Input::get('objectives');
-            $activity->type = 'regular';
+            $activity->type = Input::get('type');
             $activity->vacancies = Input::get('vacancies');
         }
         $activity->save();
 
         return redirect('home');
+    }
+
+    private function coachingActivityExist() {
+        return Activity::where('type', 'coaching')->get() === null;
     }
 
     public function changeActivity($id){
