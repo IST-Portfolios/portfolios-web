@@ -45,6 +45,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //Reports
     Route::get('/report', 'ReportController@index');
+    Route::get('/downloadReport', 'ReportController@downloadReport');
 
     Route::post('/submitReport', 'ReportController@submitReport');
 

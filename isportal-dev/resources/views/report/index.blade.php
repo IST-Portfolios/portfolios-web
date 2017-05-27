@@ -15,7 +15,9 @@
                 @else
                 <div class="panel-body">
                     <h4>You already have a report, submitting again will eliminate the previous report</h4>
-                    <a href=__DIR__."/reports/".{{Auth::user()->report}} download>Download it</a>
+                    <form method="get" id="myDownloadButtonForm" action="{{url('/downloadReport')}}">
+                      <button class="btn btn-primary" type="submit">Download Report</button>
+                    </form>
                 </div>
                 @endif
                 <hr>

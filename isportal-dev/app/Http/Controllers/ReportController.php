@@ -10,6 +10,7 @@ use DB;
 use App\Http\Requests;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ReportController extends Controller
 {
@@ -35,6 +36,16 @@ class ReportController extends Controller
       }
 
       return redirect('home');
+    }
+
+    public function downloadReport(){
+      $report = Auth::user()->report;
+      $file = __DIR__."/../../../reports/".$report;
+      $headers = array(
+              'Content-Type: application/pdf',
+            );
+
+      return response()->download($file, $report, $headers);
     }
 
     public function index(){
