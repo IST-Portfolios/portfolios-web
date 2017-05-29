@@ -29,6 +29,9 @@ So now you have your vagrant machine up and running but at `localhost:11111` the
     * Make sure that you have .env file in this directory if you do not have this file please try to manually check out this item from the repository, since by default this item is ignored.
 
 * Finally if you get an error about some invalid cypher: `php artisan key:generate`
+## Download Reports as zip
+For download the students reports you need to add this package: 
+* `sudo apt-get install php7.0-zip
 
 ## Demo
 
