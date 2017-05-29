@@ -37,7 +37,10 @@
                             @if(Auth::user()->report == null)
                             <p>No report submitted yet</p>
                             @else
-                            <p>Show report</p>
+                            <p>You have already submited a report.</p>
+                    <form method="get" id="myDownloadButtonForm" action="{{url('/downloadReport')}}">
+                      <button class="btn btn-primary" type="submit">Download Report</button>
+                    </form>
                             @endif
                         @else
                             <h4>Candidates:</h4>
@@ -59,6 +62,10 @@
                         <a href="{{ url('/lookup') }}" >
                             <button class="btn btn-default">Search</button>
                         </a>
+                        <a href="{{ url('ProfReports') }}" >
+                            <button class="btn btn-default">Submited Reports</button>
+                        </a>
+
                     @endif
                     @if($type == 'student')
                         <a href="{{ url('activity') }}">
