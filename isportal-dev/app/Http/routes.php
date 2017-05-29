@@ -42,13 +42,15 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::post('/activity/{id}', ['as' => 'setActivityID', 'uses' => 'ActivityController@setId']);
     Route::post('/submitActivity', 'ActivityController@submitActivity');
+    Route::get('/downloadReport', 'ReportController@downloadReport');
 
     //Reports
     Route::get('/report', 'ReportController@index');
     Route::get('/downloadReport', 'ReportController@downloadReport');
 
     Route::post('/submitReport', 'ReportController@submitReport');
-
+ Route::get('/ProfReports' ,'ReportController@index');
+    Route::get('/downloadReportsZip', 'ReportController@downloadReportsZipa');
 
     //Enrollments
 
