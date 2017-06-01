@@ -31,7 +31,16 @@
                                 <p style="color: red"> Your enrollment process is not complete yet. You should enroll in a total of 3 activities <a href="/activity">Enroll Here</a></p>
                             @else
                                 <p style="color: green">Your enrollment process is complete. You will be engaged by the entities responsible for the activities, you've chosen</p>
-
+                            @endif
+                            <hr>
+                            <h4>Report:</h4>
+                            @if(Auth::user()->report == null)
+                            <p>No report submitted yet</p>
+                            @else
+                            <p>You have already submited a report.</p>
+                    <form method="get" id="myDownloadButtonForm" action="{{url('/downloadReport')}}">
+                      <button class="btn btn-primary" type="submit">Download Report</button>
+                    </form>
                             @endif
                         @else
                             <h4>Candidates:</h4>
@@ -53,6 +62,10 @@
                         <a href="{{ url('/lookup') }}" >
                             <button class="btn btn-default">Search</button>
                         </a>
+                        <a href="{{ url('ProfReports') }}" >
+                            <button class="btn btn-default">Submited Reports</button>
+                        </a>
+
                     @endif
                     @if($type == 'student')
                         <a href="{{ url('activity') }}">
@@ -60,6 +73,9 @@
                         </a>
                         <a href="{{ url('enrollments') }}">
                             <button class="btn btn-default">Enrollments</button>
+                        </a>
+                        <a href="{{ url('report') }}">
+                            <button class="btn btn-default">Submit Report</button>
                         </a>
                     @elseif($type != 'student' )
                         <a href="{{ url('manageCandidates') }}">
