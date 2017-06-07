@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','type'
     ];
 
     /**
@@ -24,12 +24,41 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /*
+        Verify if the user as the enrrol process completed
+        Completed = 3 regular activities or 1 coaching activity
+    */
+    public function enrollProcessComplete() {
+        $enrollments = $this->enrollments();
+        $enrrolCount = 0;
+        foreach ($enrollments as $enrr) {
+            $activityType = $enrr->activity()->type;
+            if($activityType == 'regular') {
+                $enrrolCount++;
+            }
+            else if($activityType == 'coaching'){
+                return true;
+            }
+        }
+        return $enrrolCount == 3;
+    }
 
-    public function activities(){
+    public function isCoacher() {
+        $enrollments = $this->enrollments();
+        foreach ($enrollments as $enrr) {
+            $activityType = $enrr->activity()->type;
+            if($activityType == 'coaching') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function activities() {
         return $this->hasMany(Activity::class, 'creator_id');
     }
 
-    public function enrollments(){
+    public function enrollments() {
         return $this->hasMany(Enrollment::class, 'entity_id');
     }
 

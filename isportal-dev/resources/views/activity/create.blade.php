@@ -25,7 +25,7 @@
 
                         <div class="form-group col-md-8 col-md-offset-2">
                             <label for="title">Title</label>
-                            <input type="text" class="form-control" name="title" >
+                            <input type="text" class="form-control" id="title" name="title" >
                         </div>
 
                         @if(Auth::user()->type != 'student')
@@ -54,6 +54,20 @@
                             <textarea type="text" class="form-control" name="description" ></textarea>
                         </div>
 
+                        @if(Auth::user()->type == 'professor')
+
+                        <div class="form-group col-md-8 col-md-offset-2">
+                            <label for="type">Type</label>
+                            <select class="form-control" name="type">
+                                <option>regular</option>
+                               @if($coachingExist)
+                                    <option>coaching</option>
+                                @endif
+                            </select>
+                        </div>
+
+                        @endif
+
                         <div class="form-group col-md-8 col-md-offset-2 text-center">
                                 <button type="button" class="btn btn-default" onclick="window.location.href='/home'">Cancel</button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -67,4 +81,7 @@
             </div>
         </div>
     </div>
+
+    <script src="{{URL::asset("js/submitActivity.js")}}"></script>
+
 @endsection
